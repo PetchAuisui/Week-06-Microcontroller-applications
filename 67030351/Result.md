@@ -6,17 +6,26 @@
 idf.py size
 ```
 ##### Result
-```c
-Executing action: size
+```cExecuting action: size
 Running ninja in directory /project/lab6_1_basic_build/build
 Executing "ninja all"...
-[1/4] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /project/lab6_1_basic_build/build/partition_table/partition-table.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin
-lab1_basic_build.bin binary size 0x27b20 bytes. Smallest app partition is 0x100000 bytes. 0xd84e0 bytes (84%) free.
-[2/4] Performing build step for 'bootloader'
+[1/9] Performing build step for 'bootloader'
 [1/1] cd /project/lab6_1_basic_build/build/bootloader/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /project/lab6_1_basic_build/build/bootloader/bootloader.bin
 Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
-[3/4] No install step for 'bootloader'
-[4/4] Completed 'bootloader'
+[2/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/lab6_1_basic_build.c.obj
+[3/9] No install step for 'bootloader'
+[4/9] Completed 'bootloader'
+[5/9] Linking C static library esp-idf/main/libmain.a
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+[7/9] Linking CXX executable lab1_basic_build.elf
+[8/9] Generating binary image from built executable
+esptool.py v4.9.0
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /project/lab6_1_basic_build/build/lab1_basic_build.bin
+[9/9] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /project/lab6_1_basic_build/build/partition_table/partition-table.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin
+lab1_basic_build.bin binary size 0x279c0 bytes. Smallest app partition is 0x100000 bytes. 0xd8640 bytes (85%) free.
 Running ninja in directory /project/lab6_1_basic_build/build
 Executing "ninja size"...
 [0/1] cd /project/lab6_1_basic_build/build && /opt/esp/tools/cmake/3.30.2/bin/cmake -D "IDF_SIZE_TOOL=/opt/esp/python_env/idf6.0_py3.12_env/bin/python;-m;esp_idf_size" -D MAP_FILE=/project/lab6_1_basic_build/build/lab1_basic_build.map -D OUTPUT_JSON= -P /opt/esp/idf/tools/cmake/run_size_tool.cmake
@@ -24,13 +33,13 @@ Executing "ninja size"...
 ┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
 ┃ Memory Type/Section   ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ Flash Code            │        61366 │          │                │               │
-│    .text              │        61366 │          │                │               │
+│ Flash Code            │        61198 │          │                │               │
+│    .text              │        61198 │          │                │               │
 │ IRAM                  │        53175 │    40.57 │          77897 │        131072 │
 │    .text              │        52147 │    39.79 │                │               │
 │    .vectors           │         1028 │     0.78 │                │               │
-│ Flash Data            │        38196 │          │                │               │
-│    .rodata            │        37940 │          │                │               │
+│ Flash Data            │        38020 │          │                │               │
+│    .rodata            │        37764 │          │                │               │
 │    .appdesc           │          256 │          │                │               │
 │ DRAM                  │        11944 │     6.61 │         168792 │        180736 │
 │    .data              │         9696 │     5.36 │                │               │
