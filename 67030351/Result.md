@@ -6,8 +6,42 @@
 idf.py size
 ```
 ##### Result
-<img width="757" height="413" alt="image" src="https://github.com/user-attachments/assets/97ce31f9-0b5b-4c6a-8373-bef7e0a00314" />
+```c
+Executing action: size
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja all"...
+[1/4] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /project/lab6_1_basic_build/build/partition_table/partition-table.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin
+lab1_basic_build.bin binary size 0x27b20 bytes. Smallest app partition is 0x100000 bytes. 0xd84e0 bytes (84%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cd /project/lab6_1_basic_build/build/bootloader/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /project/lab6_1_basic_build/build/bootloader/bootloader.bin
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja size"...
+[0/1] cd /project/lab6_1_basic_build/build && /opt/esp/tools/cmake/3.30.2/bin/cmake -D "IDF_SIZE_TOOL=/opt/esp/python_env/idf6.0_py3.12_env/bin/python;-m;esp_idf_size" -D MAP_FILE=/project/lab6_1_basic_build/build/lab1_basic_build.map -D OUTPUT_JSON= -P /opt/esp/idf/tools/cmake/run_size_tool.cmake
+                             Memory Type Usage Summary                              
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Memory Type/Section   ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ Flash Code            │        61366 │          │                │               │
+│    .text              │        61366 │          │                │               │
+│ IRAM                  │        53175 │    40.57 │          77897 │        131072 │
+│    .text              │        52147 │    39.79 │                │               │
+│    .vectors           │         1028 │     0.78 │                │               │
+│ Flash Data            │        38196 │          │                │               │
+│    .rodata            │        37940 │          │                │               │
+│    .appdesc           │          256 │          │                │               │
+│ DRAM                  │        11944 │     6.61 │         168792 │        180736 │
+│    .data              │         9696 │     5.36 │                │               │
+│    .bss               │         2248 │     1.24 │                │               │
+│ RTC FAST              │           36 │     0.44 │           8156 │          8192 │
+│    .force_fast        │           36 │     0.44 │                │               │
+│ RTC SLOW              │           24 │     0.29 │           8168 │          8192 │
+│    .rtc_slow_reserved │           24 │     0.29 │                │               │
+└───────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘
 
+```
 `Total image size: 162125 bytes (.bin may be padded larger)`
 
 #### 2.ดูรายละเอียดขนาดตาม component
