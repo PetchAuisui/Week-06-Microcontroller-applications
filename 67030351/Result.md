@@ -1,19 +1,68 @@
-# ผลการทดลอง
-## การวิเคราะห์ Build Output (ใน Docker Container)
-### 1. ดูขนาด binary
+# lab6_1_basic_build
+## ผลการทดลอง
+### การวิเคราะห์ Build Output (ใน Docker Container)
+#### 1. ดูขนาด binary
 ```c
 idf.py size
-```
-#### Result
-<img width="757" height="413" alt="image" src="https://github.com/user-attachments/assets/97ce31f9-0b5b-4c6a-8373-bef7e0a00314" />
+#สร้าง size.txt
+idf.py size > size.txt
 
+```
+##### Result
+```cExecuting action: size
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja all"...
+[1/9] Performing build step for 'bootloader'
+[1/1] cd /project/lab6_1_basic_build/build/bootloader/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /project/lab6_1_basic_build/build/bootloader/bootloader.bin
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[2/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/lab6_1_basic_build.c.obj
+[3/9] No install step for 'bootloader'
+[4/9] Completed 'bootloader'
+[5/9] Linking C static library esp-idf/main/libmain.a
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+[7/9] Linking CXX executable lab1_basic_build.elf
+[8/9] Generating binary image from built executable
+esptool.py v4.9.0
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /project/lab6_1_basic_build/build/lab1_basic_build.bin
+[9/9] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py && /opt/esp/python_env/idf6.0_py3.12_env/bin/python /opt/esp/idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /project/lab6_1_basic_build/build/partition_table/partition-table.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin
+lab1_basic_build.bin binary size 0x279c0 bytes. Smallest app partition is 0x100000 bytes. 0xd8640 bytes (85%) free.
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja size"...
+[0/1] cd /project/lab6_1_basic_build/build && /opt/esp/tools/cmake/3.30.2/bin/cmake -D "IDF_SIZE_TOOL=/opt/esp/python_env/idf6.0_py3.12_env/bin/python;-m;esp_idf_size" -D MAP_FILE=/project/lab6_1_basic_build/build/lab1_basic_build.map -D OUTPUT_JSON= -P /opt/esp/idf/tools/cmake/run_size_tool.cmake
+                             Memory Type Usage Summary                              
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Memory Type/Section   ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ Flash Code            │        61198 │          │                │               │
+│    .text              │        61198 │          │                │               │
+│ IRAM                  │        53175 │    40.57 │          77897 │        131072 │
+│    .text              │        52147 │    39.79 │                │               │
+│    .vectors           │         1028 │     0.78 │                │               │
+│ Flash Data            │        38020 │          │                │               │
+│    .rodata            │        37764 │          │                │               │
+│    .appdesc           │          256 │          │                │               │
+│ DRAM                  │        11944 │     6.61 │         168792 │        180736 │
+│    .data              │         9696 │     5.36 │                │               │
+│    .bss               │         2248 │     1.24 │                │               │
+│ RTC FAST              │           36 │     0.44 │           8156 │          8192 │
+│    .force_fast        │           36 │     0.44 │                │               │
+│ RTC SLOW              │           24 │     0.29 │           8168 │          8192 │
+│    .rtc_slow_reserved │           24 │     0.29 │                │               │
+└───────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘
+
+```
 `Total image size: 162125 bytes (.bin may be padded larger)`
 
-### 2.ดูรายละเอียดขนาดตาม component
+#### 2.ดูรายละเอียดขนาดตาม component
 ```c
+idf.py size-components 
+#สร้าง size-components.txt
 idf.py size-components > size-components.txt
 ```
-#### Result
+##### Result
 ```c
 Executing action: size-components
 Running ninja in directory /project/lab6_1_basic_build/build
@@ -68,6 +117,8 @@ Executing "ninja size-components"...
 
 ### 3.ดูรายละเอียดขนาดตาม source file
 ```c
+idf.py size-files
+#สร้าง size-files.txt
 idf.py size-files > size-files.txt
 ```
 #### Result
@@ -286,4 +337,285 @@ Executing "ninja size-files"...
 │ spi_bus_lock.c.obj                  │          4 │    0 │    0 │     0 │    0 │     0 │        0 │          0 │     0 │          4 │       4 │        0 │        0 │           0 │        0 │                  0 │
 └─────────────────────────────────────┴────────────┴──────┴──────┴───────┴──────┴───────┴──────────┴────────────┴───────┴────────────┴─────────┴──────────┴──────────┴─────────────┴──────────┴────────────────────┘
 ```
+### การ Flash และทดสอบ (ต้องออกจาก Docker หรือใช้ QEMU)
+```c
+idf.py qemu 
+```
+#### Result
+<img width="1224" height="903" alt="image" src="https://github.com/user-attachments/assets/c77a0bd1-a631-4d84-94ed-054a46a0aef0" />
 
+```c
+root@9353b4f3ecf3:/project/lab6_1_basic_build# idf.py qemu
+Adding "qemu"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja all"...
+[1/4] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py &...able.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin 
+lab1_basic_build.bin binary size 0x279c0 bytes. Smallest app partition is 0x100000 bytes. 0xd8640 bytes (85%) free.
+[1/1] cd /project/lab6_1_basic_build/build/bootloader/esp-idf/e...000 /project/lab6_1_basic_build/build/bootloader/bootloader.bin 
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[4/4] Completed 'bootloader'Executing action: qemu
+Generating flash image: /project/lab6_1_basic_build/build/qemu_flash.bin
+esptool.py --chip=esp32 merge_bin --output=/project/lab6_1_basic_build/build/qemu_flash.bin --fill-flash-size=2MB --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 lab1_basic_build.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.9.0
+SHA digest in image updated
+Wrote 0x200000 bytes to file /project/lab6_1_basic_build/build/qemu_flash.bin, ready to flash to offset 0x0
+Generating efuse image: /project/lab6_1_basic_build/build/qemu_efuse.bin
+Running qemu (fg): qemu-system-xtensa -M esp32 -m 4M -drive file=/project/lab6_1_basic_build/build/qemu_flash.bin,if=mtd,format=raw -drive file=/project/lab6_1_basic_build/build/qemu_efuse.bin,if=none,format=raw,id=efuse -global driver=nvram.esp32.efuse,property=drive,value=efuse -global driver=timer.esp32.timg,property=wdt_disable,value=true -nic user,model=open_eth -nographic -serial mon:stdio
+Adding SPI flash device
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1154) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1157) boot: compile time Aug  6 2025 02:55:00
+I (1158) boot: Multicore bootloader
+I (1652) boot: chip revision: v3.0
+I (1656) boot.esp32: SPI Speed      : 40MHz
+I (1657) boot.esp32: SPI Mode       : DIO
+I (1657) boot.esp32: SPI Flash Size : 2MB
+I (1727) boot: Enabling RNG early entropy source...
+I (1791) boot: Partition Table:
+I (1792) boot: ## Label            Usage          Type ST Offset   Length
+I (1793) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (1794) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (1795) boot:  2 factory          factory app      00 00 00010000 00100000
+I (1867) boot: End of partition table
+I (2376) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09484h ( 38020) map
+I (2667) esp_image: segment 1: paddr=000194ac vaddr=3ff80000 size=00024h (    36) load
+I (2891) esp_image: segment 2: paddr=000194d8 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3128) esp_image: segment 3: paddr=0001bac0 vaddr=40080000 size=04558h ( 17752) load
+I (3355) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0ef10h ( 61200) map
+I (3611) esp_image: segment 5: paddr=0002ef38 vaddr=40084558 size=08a60h ( 35424) load
+I (4301) boot: Loaded app from partition at offset 0x10000
+I (4301) boot: Disabling RNG early entropy source...
+I (4379) cpu_start: Multicore app
+I (8222) cpu_start: Pro cpu start user code
+I (8224) cpu_start: cpu freq: 160000000 Hz
+I (8225) app_init: Application information:
+I (8226) app_init: Project name:     lab1_basic_build
+I (8228) app_init: App version:      1
+I (8229) app_init: Compile time:     Aug  6 2025 02:54:16
+I (8231) app_init: ELF file SHA256:  202810b28...
+I (8233) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (8233) efuse_init: Min chip rev:     v0.0
+I (8233) efuse_init: Max chip rev:     v3.99
+I (8234) efuse_init: Chip rev:         v3.0
+I (8236) heap_init: Initializing. RAM available for dynamic allocation:
+I (8237) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (8238) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (8238) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (8238) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (8239) heap_init: At 4008CFB8 len 00013048 (76 KiB): IRAM
+I (8302) spi_flash: detected chip: winbond
+I (8307) spi_flash: flash io: dio
+I (8328) main_task: Started on CPU0
+I (8328) main_task: Calling app_main()
+I (8328) LAB6_1: Lab 6.1: Basic ESP32 Project Structure
+I (8338) LAB6_1: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (8338) LAB6_1: Free heap size: 304636 bytes
+I (8338) LAB6_1: Build system test - Counter: 0
+I (10338) LAB6_1: Build system test - Counter: 1
+I (12338) LAB6_1: Build system test - Counter: 2
+I (14338) LAB6_1: Build system test - Counter: 3
+I (16338) LAB6_1: Build system test - Counter: 4
+I (18338) LAB6_1: Build system test - Counter: 5
+I (20338) LAB6_1: Build system test - Counter: 6
+I (22338) LAB6_1: Build system test - Counter: 7
+I (24338) LAB6_1: Build system test - Counter: 8
+I (26338) LAB6_1: Build system test - Counter: 9
+I (28338) LAB6_1: Build system test - Counter: 10
+I (30338) LAB6_1: Build system test - Counter: 11
+I (32338) LAB6_1: Build system test - Counter: 12
+I (34338) LAB6_1: Build system test - Counter: 13
+I (36338) LAB6_1: Build system test - Counter: 14
+I (38338) LAB6_1: Build system test - Counter: 15
+I (40338) LAB6_1: Build system test - Counter: 16
+I (42338) LAB6_1: Build system test - Counter: 17
+I (44338) LAB6_1: Build system test - Counter: 18
+I (46338) LAB6_1: Build system test - Counter: 19
+I (48338) LAB6_1: Build system test - Counter: 20
+I (50338) LAB6_1: Build system test - Counter: 21
+I (52338) LAB6_1: Build system test - Counter: 22
+I (54338) LAB6_1: Build system test - Counter: 23
+I (56338) LAB6_1: Build system test - Counter: 24
+I (58338) LAB6_1: Build system test - Counter: 25
+I (60338) LAB6_1: Build system test - Counter: 26
+I (62338) LAB6_1: Build system test - Counter: 27
+I (64338) LAB6_1: Build system test - Counter: 28
+I (66338) LAB6_1: Build system test - Counter: 29
+I (68338) LAB6_1: Build system test - Counter: 30
+I (70338) LAB6_1: Build system test - Counter: 31
+I (72338) LAB6_1: Build system test - Counter: 32
+I (74338) LAB6_1: Build system test - Counter: 33
+I (76338) LAB6_1: Build system test - Counter: 34
+I (78338) LAB6_1: Build system test - Counter: 35
+I (80338) LAB6_1: Build system test - Counter: 36
+I (82338) LAB6_1: Build system test - Counter: 37
+I (84338) LAB6_1: Build system test - Counter: 38
+I (86338) LAB6_1: Build system test - Counter: 39
+I (88338) LAB6_1: Build system test - Counter: 40
+
+```
+## การทดลองเพิ่มเติม
+1. เพิ่ม Build Information (ใน Docker Container)
+แก้ไข main/lab6_1_basic_build.c:
+
+```
+# เข้า container (ถ้ายังไม่ได้เข้า)
+docker-compose exec esp32-dev bash
+source $IDF_PATH/export.sh
+cd lab6_1_basic_build
+```
+# แก้ไขไฟล์
+```c
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_system.h"
+#include "esp_log.h"
+
+static const char *TAG = "LAB1";
+
+void print_build_info(void)
+{
+    ESP_LOGI(TAG, "=== Build Information ===");
+    ESP_LOGI(TAG, "Project Name: lab6_1_basic_build");
+    ESP_LOGI(TAG, "ESP-IDF Version: %s", esp_get_idf_version());
+    ESP_LOGI(TAG, "Compile Date: %s", __DATE__);
+    ESP_LOGI(TAG, "Compile Time: %s", __TIME__);
+    ESP_LOGI(TAG, "Chip Model: %s", CONFIG_IDF_TARGET);
+    ESP_LOGI(TAG, "Free Heap: %d bytes", esp_get_free_heap_size());
+}
+
+void app_main(void)
+{
+    print_build_info();
+    
+    int counter = 0;
+    
+    while (1) {
+        ESP_LOGI(TAG, "Running... Counter: %d", counter++);
+        
+        // แสดงสถานะ memory ทุกๆ 10 ครั้ง
+        if (counter % 10 == 0) {
+            ESP_LOGI(TAG, "Current free heap: %d bytes", esp_get_free_heap_size());
+        }
+        
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+```
+### บันทึกผลการ simulate ในโฟลเดอร์ส่งงาน
+<img width="1215" height="905" alt="image" src="https://github.com/user-attachments/assets/91acfb14-4173-4a95-906c-c602443eaafb" />
+
+```c
+I (1252) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1256) boot: compile time Aug  6 2025 02:55:00
+I (1257) boot: Multicore bootloader
+I (1836) boot: chip revision: v3.0
+I (1842) boot.esp32: SPI Speed      : 40MHz
+I (1844) boot.esp32: SPI Mode       : DIO
+I (1846) boot.esp32: SPI Flash Size : 2MB
+I (1924) boot: Enabling RNG early entropy source...
+I (2025) boot: Partition Table:
+I (2026) boot: ## Label            Usage          Type ST Offset   Length
+I (2026) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (2028) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (2029) boot:  2 factory          factory app      00 00 00010000 00100000
+I (2135) boot: End of partition table
+I (2770) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09534h ( 38196) map
+I (3088) esp_image: segment 1: paddr=0001955c vaddr=3ff80000 size=00024h (    36) load
+I (3428) esp_image: segment 2: paddr=00019588 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3706) esp_image: segment 3: paddr=0001bb70 vaddr=40080000 size=044a8h ( 17576) load
+I (3990) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0efb8h ( 61368) map
+I (4274) esp_image: segment 5: paddr=0002efe0 vaddr=400844a8 size=08b10h ( 35600) load
+I (5331) boot: Loaded app from partition at offset 0x10000
+I (5332) boot: Disabling RNG early entropy source...
+I (5433) cpu_start: Multicore app
+I (10287) cpu_start: Pro cpu start user code
+I (10290) cpu_start: cpu freq: 160000000 Hz
+I (10291) app_init: Application information:
+I (10291) app_init: Project name:     lab1_basic_build
+I (10292) app_init: App version:      1
+I (10294) app_init: Compile time:     Aug  6 2025 02:54:16
+I (10295) app_init: ELF file SHA256:  86f8f58bd...
+I (10296) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (10296) efuse_init: Min chip rev:     v0.0
+I (10297) efuse_init: Max chip rev:     v3.99
+I (10298) efuse_init: Chip rev:         v3.0
+I (10300) heap_init: Initializing. RAM available for dynamic allocation:
+I (10302) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (10303) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (10303) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (10304) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (10304) heap_init: At 4008CFB8 len 00013048 (76 KiB): IRAM
+I (10388) spi_flash: detected chip: winbond
+I (10406) spi_flash: flash io: dio
+I (10436) main_task: Started on CPU0
+I (10456) main_task: Calling app_main()
+I (10466) LAB1: === Build Information ===
+I (10466) LAB1: Project Name: lab6_1_basic_build
+I (10466) LAB1: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (10466) LAB1: Compile Date: Aug  6 2025
+I (10466) LAB1: Compile Time: 03:40:23
+I (10466) LAB1: Chip Model: esp32
+I (10466) LAB1: Free Heap: 304636 bytes
+I (10466) LAB1: Running... Counter: 0
+I (11466) LAB1: Running... Counter: 1
+I (12466) LAB1: Running... Counter: 2
+I (13466) LAB1: Running... Counter: 3
+I (14466) LAB1: Running... Counter: 4
+I (15466) LAB1: Running... Counter: 5
+I (16466) LAB1: Running... Counter: 6
+I (17466) LAB1: Running... Counter: 7
+```
+
+## คำถามทบทวน
+1. Docker vs Native Setup: อธิบายข้อดีของการใช้ Docker เปรียบเทียบกับการติดตั้ง ESP-IDF บน host system
+  - **Ans:**  
+    - Docker: ติดตั้งง่าย, ย้ายเครื่องสะดวก, แยกจากระบบหลัก,สภาพแวดล้อมเหมือนกันทุกเครื่อ
+    - Native: เข้าถึง hardware โดยตรง, เร็วกว่าเล็กน้อย, เหมาะกับ dev ที่ชำนาญ
+2. Build Process: อธิบายขั้นตอนการ build ของ ESP-IDF ใน Docker container ตั้งแต่ source code จนได้ binary
+  - **Ans:**
+      - เข้า container: `docker-compose exec esp32-dev bash`
+      - ตั้งค่า environment: `source $IDF_PATH/export.sh`
+      - สร้างโปรเจกต์
+      - Build:
+        - `idf.py set-target esp32` – ตั้งเป้าหมาย MCU
+        - `idf.py build` – compile + link → ได้ .elf + .bin
+      - ตรวจสอบขนาด:` idf.py size`, `idf.py size-components`, `idf.py size-files`
+3. CMake Files: บทบาทของไฟล์ CMakeLists.txt แต่ละไฟล์คืออะไร และทำงานอย่างไรใน Docker environment?
+  - **Ans:**
+      - Top-level CMakeLists.txt
+        - ระบุชื่อโปรเจกต์
+        - include ระบบ build ของ ESP-IDF
+
+      - main/CMakeLists.txt
+        - ลงทะเบียน component
+        - ระบุ source file และ include dir
+      - ทำงานใน Docker: idf.py เรียก cmake โดยใช้ไฟล์เหล่านี้สร้าง build system
+4. Git Ignore: ไฟล์ .gitignore มีความสำคัญอย่างไรสำหรับ ESP32 project development?
+  - **Ans:**
+    - กันไม่ให้ไฟล์ชั่วคราว, ไฟล์ใหญ่ หรือข้อมูลลับ (เช่น build/, *.bin, *.key) ถูก push ขึ้น Git
+    - ช่วยให้โปรเจกต์สะอาด และทำงานร่วมกับทีมได้ดี
+5. Container Persistence: ข้อมูลใดบ้างที่จะหายไปเมื่อ restart container และข้อมูลใดที่จะอยู่ต่อ?
+  - **Ans:**
+    - ข้อมูลที่หาย: ไฟล์ใน container (เช่น build/ ถ้าไม่ mount)
+    - ข้อมูลที่อยู่ต่อ: ไฟล์ที่ mount จาก host (source code, .gitignore, CMakeLists.txt) <br>
+    * หมายเหตุ: Docker ใช้ volume mapping เช่น .:/project เพื่อให้ไฟล์อยู่ต่อได้
+6. Development Workflow: เปรียบเทียบ workflow การพัฒนาระหว่างการใช้ Docker กับการทำงานบน native system
+  - **Ans:**
+
+    | หัวข้อ          | Docker             | Native                 |
+    | --------------- | ------------------ | ---------------------- |
+    | Setup           | เร็ว, ใช้งานง่าย   | ต้องติดตั้งหลายขั้นตอน |
+    | ความเสถียร      | สภาพแวดล้อมคงที่   | อาจพังเพราะอัพเดต OS   |
+    | Access hardware | ต้อง map USB       | เข้าถึงได้ทันที        |
+    | การย้ายเครื่อง  | ง่าย แค่ย้าย image | ต้อง setup ใหม่        |
