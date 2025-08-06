@@ -55,6 +55,9 @@ Executing "ninja size"...
 ```
 `Total image size: 162125 bytes (.bin may be padded larger)`
 
+[size.txt](size.txt)
+
+
 #### 2.ดูรายละเอียดขนาดตาม component
 ```c
 idf.py size-components 
