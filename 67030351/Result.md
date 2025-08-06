@@ -1,4 +1,3 @@
-<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/2b733d5c-8b86-461e-956d-eb73d24c886d" /># lab6_1_basic_build
 ## ผลการทดลอง
 ### การวิเคราะห์ Build Output (ใน Docker Container)
 #### 1. ดูขนาด binary
