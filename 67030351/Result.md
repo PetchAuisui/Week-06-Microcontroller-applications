@@ -529,15 +529,43 @@ I (17466) LAB1: Running... Counter: 7
 
 ## คำถามทบทวน
 1. Docker vs Native Setup: อธิบายข้อดีของการใช้ Docker เปรียบเทียบกับการติดตั้ง ESP-IDF บน host system
-  - **Ans:**   - Docker: ติดตั้งง่าย, เสถียร, ย้ายเครื่องสะดวก, แยกจากระบบหลัก
-              - Native: เข้าถึง hardware โดยตรง, เร็วกว่าเล็กน้อย, เหมาะกับ dev ที่ชำนาญ
+  - **Ans:**  
+    - Docker: ติดตั้งง่าย, ย้ายเครื่องสะดวก, แยกจากระบบหลัก,สภาพแวดล้อมเหมือนกันทุกเครื่อ
+    - Native: เข้าถึง hardware โดยตรง, เร็วกว่าเล็กน้อย, เหมาะกับ dev ที่ชำนาญ
 2. Build Process: อธิบายขั้นตอนการ build ของ ESP-IDF ใน Docker container ตั้งแต่ source code จนได้ binary
   - **Ans:**
+      - เข้า container: `docker-compose exec esp32-dev bash`
+      - ตั้งค่า environment: `source $IDF_PATH/export.sh`
+      - สร้างโปรเจกต์
+      - Build:
+        - `idf.py set-target esp32` – ตั้งเป้าหมาย MCU
+        - `idf.py build` – compile + link → ได้ .elf + .bin
+      - ตรวจสอบขนาด:` idf.py size`, `idf.py size-components`, `idf.py size-files`
 3. CMake Files: บทบาทของไฟล์ CMakeLists.txt แต่ละไฟล์คืออะไร และทำงานอย่างไรใน Docker environment?
   - **Ans:**
+      - Top-level CMakeLists.txt
+        - ระบุชื่อโปรเจกต์
+        - include ระบบ build ของ ESP-IDF
+
+      - main/CMakeLists.txt
+        - ลงทะเบียน component
+        - ระบุ source file และ include dir
+      - ทำงานใน Docker: idf.py เรียก cmake โดยใช้ไฟล์เหล่านี้สร้าง build system
 4. Git Ignore: ไฟล์ .gitignore มีความสำคัญอย่างไรสำหรับ ESP32 project development?
   - **Ans:**
+    - กันไม่ให้ไฟล์ชั่วคราว, ไฟล์ใหญ่ หรือข้อมูลลับ (เช่น build/, *.bin, *.key) ถูก push ขึ้น Git
+    - ช่วยให้โปรเจกต์สะอาด และทำงานร่วมกับทีมได้ดี
 5. Container Persistence: ข้อมูลใดบ้างที่จะหายไปเมื่อ restart container และข้อมูลใดที่จะอยู่ต่อ?
   - **Ans:**
-6.Development Workflow: เปรียบเทียบ workflow การพัฒนาระหว่างการใช้ Docker กับการทำงานบน native system
+    - ข้อมูลที่หาย: ไฟล์ใน container (เช่น build/ ถ้าไม่ mount)
+    - ข้อมูลที่อยู่ต่อ: ไฟล์ที่ mount จาก host (source code, .gitignore, CMakeLists.txt) <br>
+    * หมายเหตุ: Docker ใช้ volume mapping เช่น .:/project เพื่อให้ไฟล์อยู่ต่อได้
+6. Development Workflow: เปรียบเทียบ workflow การพัฒนาระหว่างการใช้ Docker กับการทำงานบน native system
   - **Ans:**
+
+    | หัวข้อ          | Docker             | Native                 |
+    | --------------- | ------------------ | ---------------------- |
+    | Setup           | เร็ว, ใช้งานง่าย   | ต้องติดตั้งหลายขั้นตอน |
+    | ความเสถียร      | สภาพแวดล้อมคงที่   | อาจพังเพราะอัพเดต OS   |
+    | Access hardware | ต้อง map USB       | เข้าถึงได้ทันที        |
+    | การย้ายเครื่อง  | ง่าย แค่ย้าย image | ต้อง setup ใหม่        |
