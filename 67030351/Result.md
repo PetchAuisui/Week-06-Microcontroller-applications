@@ -411,34 +411,119 @@ I (82338) LAB6_1: Build system test - Counter: 37
 I (84338) LAB6_1: Build system test - Counter: 38
 I (86338) LAB6_1: Build system test - Counter: 39
 I (88338) LAB6_1: Build system test - Counter: 40
-I (90338) LAB6_1: Build system test - Counter: 41
-I (92338) LAB6_1: Build system test - Counter: 42
-I (94338) LAB6_1: Build system test - Counter: 43
-I (96338) LAB6_1: Build system test - Counter: 44
-I (98338) LAB6_1: Build system test - Counter: 45
-I (100338) LAB6_1: Build system test - Counter: 46
-I (102338) LAB6_1: Build system test - Counter: 47
-I (104338) LAB6_1: Build system test - Counter: 48
-I (106338) LAB6_1: Build system test - Counter: 49
-I (108338) LAB6_1: Build system test - Counter: 50
-I (110338) LAB6_1: Build system test - Counter: 51
-I (112338) LAB6_1: Build system test - Counter: 52
-I (114338) LAB6_1: Build system test - Counter: 53
-I (116338) LAB6_1: Build system test - Counter: 54
-I (118338) LAB6_1: Build system test - Counter: 55
-I (120338) LAB6_1: Build system test - Counter: 56
-I (122338) LAB6_1: Build system test - Counter: 57
-I (124338) LAB6_1: Build system test - Counter: 58
-I (126338) LAB6_1: Build system test - Counter: 59
-I (128338) LAB6_1: Build system test - Counter: 60
-I (130338) LAB6_1: Build system test - Counter: 61
-I (132338) LAB6_1: Build system test - Counter: 62
-I (134338) LAB6_1: Build system test - Counter: 63
-I (136338) LAB6_1: Build system test - Counter: 64
-I (138338) LAB6_1: Build system test - Counter: 65
-I (140338) LAB6_1: Build system test - Counter: 66
-I (142338) LAB6_1: Build system test - Counter: 67
-I (144338) LAB6_1: Build system test - Counter: 68
-I (146338) LAB6_1: Build system test - Counter: 69
-I (148338) LAB6_1: Build system test - Counter: 70
+
+```
+## การทดลองเพิ่มเติม
+1. เพิ่ม Build Information (ใน Docker Container)
+แก้ไข main/lab6_1_basic_build.c:
+
+```
+# เข้า container (ถ้ายังไม่ได้เข้า)
+docker-compose exec esp32-dev bash
+source $IDF_PATH/export.sh
+cd lab6_1_basic_build
+```
+# แก้ไขไฟล์
+```c
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_system.h"
+#include "esp_log.h"
+
+static const char *TAG = "LAB1";
+
+void print_build_info(void)
+{
+    ESP_LOGI(TAG, "=== Build Information ===");
+    ESP_LOGI(TAG, "Project Name: lab6_1_basic_build");
+    ESP_LOGI(TAG, "ESP-IDF Version: %s", esp_get_idf_version());
+    ESP_LOGI(TAG, "Compile Date: %s", __DATE__);
+    ESP_LOGI(TAG, "Compile Time: %s", __TIME__);
+    ESP_LOGI(TAG, "Chip Model: %s", CONFIG_IDF_TARGET);
+    ESP_LOGI(TAG, "Free Heap: %d bytes", esp_get_free_heap_size());
+}
+
+void app_main(void)
+{
+    print_build_info();
+    
+    int counter = 0;
+    
+    while (1) {
+        ESP_LOGI(TAG, "Running... Counter: %d", counter++);
+        
+        // แสดงสถานะ memory ทุกๆ 10 ครั้ง
+        if (counter % 10 == 0) {
+            ESP_LOGI(TAG, "Current free heap: %d bytes", esp_get_free_heap_size());
+        }
+        
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+```
+### บันทึกผลการ simulate ในโฟลเดอร์ส่งงาน
+<img width="1215" height="905" alt="image" src="https://github.com/user-attachments/assets/91acfb14-4173-4a95-906c-c602443eaafb" />
+
+```c
+I (1252) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1256) boot: compile time Aug  6 2025 02:55:00
+I (1257) boot: Multicore bootloader
+I (1836) boot: chip revision: v3.0
+I (1842) boot.esp32: SPI Speed      : 40MHz
+I (1844) boot.esp32: SPI Mode       : DIO
+I (1846) boot.esp32: SPI Flash Size : 2MB
+I (1924) boot: Enabling RNG early entropy source...
+I (2025) boot: Partition Table:
+I (2026) boot: ## Label            Usage          Type ST Offset   Length
+I (2026) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (2028) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (2029) boot:  2 factory          factory app      00 00 00010000 00100000
+I (2135) boot: End of partition table
+I (2770) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09534h ( 38196) map
+I (3088) esp_image: segment 1: paddr=0001955c vaddr=3ff80000 size=00024h (    36) load
+I (3428) esp_image: segment 2: paddr=00019588 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3706) esp_image: segment 3: paddr=0001bb70 vaddr=40080000 size=044a8h ( 17576) load
+I (3990) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0efb8h ( 61368) map
+I (4274) esp_image: segment 5: paddr=0002efe0 vaddr=400844a8 size=08b10h ( 35600) load
+I (5331) boot: Loaded app from partition at offset 0x10000
+I (5332) boot: Disabling RNG early entropy source...
+I (5433) cpu_start: Multicore app
+I (10287) cpu_start: Pro cpu start user code
+I (10290) cpu_start: cpu freq: 160000000 Hz
+I (10291) app_init: Application information:
+I (10291) app_init: Project name:     lab1_basic_build
+I (10292) app_init: App version:      1
+I (10294) app_init: Compile time:     Aug  6 2025 02:54:16
+I (10295) app_init: ELF file SHA256:  86f8f58bd...
+I (10296) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (10296) efuse_init: Min chip rev:     v0.0
+I (10297) efuse_init: Max chip rev:     v3.99
+I (10298) efuse_init: Chip rev:         v3.0
+I (10300) heap_init: Initializing. RAM available for dynamic allocation:
+I (10302) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (10303) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (10303) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (10304) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (10304) heap_init: At 4008CFB8 len 00013048 (76 KiB): IRAM
+I (10388) spi_flash: detected chip: winbond
+I (10406) spi_flash: flash io: dio
+I (10436) main_task: Started on CPU0
+I (10456) main_task: Calling app_main()
+I (10466) LAB1: === Build Information ===
+I (10466) LAB1: Project Name: lab6_1_basic_build
+I (10466) LAB1: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (10466) LAB1: Compile Date: Aug  6 2025
+I (10466) LAB1: Compile Time: 03:40:23
+I (10466) LAB1: Chip Model: esp32
+I (10466) LAB1: Free Heap: 304636 bytes
+I (10466) LAB1: Running... Counter: 0
+I (11466) LAB1: Running... Counter: 1
+I (12466) LAB1: Running... Counter: 2
+I (13466) LAB1: Running... Counter: 3
+I (14466) LAB1: Running... Counter: 4
+I (15466) LAB1: Running... Counter: 5
+I (16466) LAB1: Running... Counter: 6
+I (17466) LAB1: Running... Counter: 7
+
 ```
