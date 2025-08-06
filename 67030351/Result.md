@@ -1,19 +1,20 @@
-# ผลการทดลอง
-## การวิเคราะห์ Build Output (ใน Docker Container)
-### 1. ดูขนาด binary
+
+## ผลการทดลอง
+### การวิเคราะห์ Build Output (ใน Docker Container)
+#### 1. ดูขนาด binary
 ```c
 idf.py size
 ```
-#### Result
+##### Result
 <img width="757" height="413" alt="image" src="https://github.com/user-attachments/assets/97ce31f9-0b5b-4c6a-8373-bef7e0a00314" />
 
 `Total image size: 162125 bytes (.bin may be padded larger)`
 
-### 2.ดูรายละเอียดขนาดตาม component
+#### 2.ดูรายละเอียดขนาดตาม component
 ```c
 idf.py size-components > size-components.txt
 ```
-#### Result
+##### Result
 ```c
 Executing action: size-components
 Running ninja in directory /project/lab6_1_basic_build/build
@@ -286,11 +287,11 @@ Executing "ninja size-files"...
 │ spi_bus_lock.c.obj                  │          4 │    0 │    0 │     0 │    0 │     0 │        0 │          0 │     0 │          4 │       4 │        0 │        0 │           0 │        0 │                  0 │
 └─────────────────────────────────────┴────────────┴──────┴──────┴───────┴──────┴───────┴──────────┴────────────┴───────┴────────────┴─────────┴──────────┴──────────┴─────────────┴──────────┴────────────────────┘
 ```
-## การ Flash และทดสอบ (ต้องออกจาก Docker หรือใช้ QEMU)
+### การ Flash และทดสอบ (ต้องออกจาก Docker หรือใช้ QEMU)
 ```c
 idf.py qemu 
 ```
-### Result
+#### Result
 <img width="1224" height="903" alt="image" src="https://github.com/user-attachments/assets/c77a0bd1-a631-4d84-94ed-054a46a0aef0" />
 
 ```c
