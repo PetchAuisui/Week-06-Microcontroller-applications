@@ -291,7 +291,7 @@ Executing "ninja size-files"...
 idf.py qemu 
 ```
 ### Result
-<img width="1162" height="878" alt="image" src="https://github.com/user-attachments/assets/a89dc6a0-13e7-4cbe-acc7-fb3a65cc2edf" />
+<img width="1224" height="903" alt="image" src="https://github.com/user-attachments/assets/c77a0bd1-a631-4d84-94ed-054a46a0aef0" />
 
 ```c
 root@9353b4f3ecf3:/project/lab6_1_basic_build# idf.py qemu
