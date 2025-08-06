@@ -4,6 +4,9 @@
 #### 1. ดูขนาด binary
 ```c
 idf.py size
+#สร้าง size.txt
+idf.py size > size.txt
+
 ```
 ##### Result
 ```cExecuting action: size
@@ -55,6 +58,8 @@ Executing "ninja size"...
 
 #### 2.ดูรายละเอียดขนาดตาม component
 ```c
+idf.py size-components 
+#สร้าง size-components.txt
 idf.py size-components > size-components.txt
 ```
 ##### Result
@@ -112,6 +117,8 @@ Executing "ninja size-components"...
 
 ### 3.ดูรายละเอียดขนาดตาม source file
 ```c
+idf.py size-files
+#สร้าง size-files.txt
 idf.py size-files > size-files.txt
 ```
 #### Result
