@@ -1,4 +1,4 @@
-# lab6_1_basic_build
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/2b733d5c-8b86-461e-956d-eb73d24c886d" /># lab6_1_basic_build
 ## ผลการทดลอง
 ### การวิเคราะห์ Build Output (ใน Docker Container)
 #### 1. ดูขนาด binary
@@ -621,3 +621,409 @@ I (17466) LAB1: Running... Counter: 7
     | การย้ายเครื่อง  | ง่าย แค่ย้าย image | ต้อง setup ใหม่        |
 
 # Lab 6.2: Add Source Files to Project
+## ทดสอบ Build และ Run (ครั้งที่ 1)
+### Result
+```c
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1180) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1183) boot: compile time Aug  6 2025 09:30:58
+I (1184) boot: Multicore bootloader
+I (1841) boot: chip revision: v3.0
+I (1845) boot.esp32: SPI Speed      : 40MHz
+I (1846) boot.esp32: SPI Mode       : DIO
+I (1847) boot.esp32: SPI Flash Size : 2MB
+I (1926) boot: Enabling RNG early entropy source...
+I (2009) boot: Partition Table:
+I (2010) boot: ## Label            Usage          Type ST Offset   Length
+I (2011) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (2012) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (2013) boot:  2 factory          factory app      00 00 00010000 00100000
+I (2088) boot: End of partition table
+I (2703) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09634h ( 38452) map
+I (3010) esp_image: segment 1: paddr=0001965c vaddr=3ff80000 size=00024h (    36) load
+I (3303) esp_image: segment 2: paddr=00019688 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3583) esp_image: segment 3: paddr=0001bc70 vaddr=40080000 size=043a8h ( 17320) load
+I (3878) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0f0ach ( 61612) map
+I (4197) esp_image: segment 5: paddr=0002f0d4 vaddr=400843a8 size=08c58h ( 35928) load
+I (5051) boot: Loaded app from partition at offset 0x10000
+I (5052) boot: Disabling RNG early entropy source...
+I (5140) cpu_start: Multicore app
+I (9734) cpu_start: Pro cpu start user code
+I (9736) cpu_start: cpu freq: 160000000 Hz
+I (9737) app_init: Application information:
+I (9737) app_init: Project name:     lab6_2_multiple_files
+I (9738) app_init: App version:      1
+I (9739) app_init: Compile time:     Aug  6 2025 09:32:23
+I (9739) app_init: ELF file SHA256:  16fc844d9...
+I (9740) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (9741) efuse_init: Min chip rev:     v0.0
+I (9741) efuse_init: Max chip rev:     v3.99
+I (9742) efuse_init: Chip rev:         v3.0
+I (9744) heap_init: Initializing. RAM available for dynamic allocation:
+I (9746) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (9748) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (9749) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (9750) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (9752) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (9821) spi_flash: detected chip: winbond
+I (9831) spi_flash: flash io: dio
+I (9847) main_task: Started on CPU0
+I (9857) main_task: Calling app_main()
+I (9857) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (9857) MAIN: 📍 Main function from file: ./main/lab6_2_multiple_files.c, line: 13
+I (9857) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (9867) SENSOR: 🔧 Sensor initialized from file: ./main/sensor.c, line: 12
+I (9867) SENSOR: 📡 Sensor module ready for operation
+I (9867) MAIN: === Loop 0 ===
+I (9867) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (9867) SENSOR: 🌡️  Temperature: 30.5°C
+I (9877) SENSOR: 💧 Humidity: 93.6%
+I (11877) MAIN: === Loop 1 ===
+I (11877) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (11877) SENSOR: 🌡️  Temperature: 33.9°C
+I (11877) SENSOR: 💧 Humidity: 96.5%
+I (13877) MAIN: === Loop 2 ===
+I (13877) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (13877) SENSOR: 🌡️  Temperature: 32.6°C
+I (13877) SENSOR: 💧 Humidity: 82.5%
+I (13877) SENSOR: ✅ Sensor status check from file: ./main/sensor.c, line: 30
+I (13877) SENSOR: 📈 All sensors operating normally
+I (15877) MAIN: === Loop 3 ===
+I (15877) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (15877) SENSOR: 🌡️  Temperature: 26.7°C
+I (15877) SENSOR: 💧 Humidity: 93.4%
+I (17877) MAIN: === Loop 4 ===
+I (17877) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (17877) SENSOR: 🌡️  Temperature: 25.5°C
+I (17877) SENSOR: 💧 Humidity: 66.4%
+I (19877) MAIN: === Loop 5 ===
+I (19877) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (19877) SENSOR: 🌡️  Temperature: 26.6°C
+I (19877) SENSOR: 💧 Humidity: 73.3%
+I (19877) SENSOR: ✅ Sensor status check from file: ./main/sensor.c, line: 30
+I (19877) SENSOR: 📈 All sensors operating normally
+```
+## ทดสอบ Build และ Run (ครั้งที่ 2)
+### Result
+```c
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1184) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1186) boot: compile time Aug  6 2025 09:30:58
+I (1186) boot: Multicore bootloader
+I (1910) boot: chip revision: v3.0
+I (1914) boot.esp32: SPI Speed      : 40MHz
+I (1916) boot.esp32: SPI Mode       : DIO
+I (1921) boot.esp32: SPI Flash Size : 2MB
+I (2054) boot: Enabling RNG early entropy source...
+I (2152) boot: Partition Table:
+I (2153) boot: ## Label            Usage          Type ST Offset   Length
+I (2154) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (2156) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (2157) boot:  2 factory          factory app      00 00 00010000 00100000
+I (2249) boot: End of partition table
+I (2921) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09824h ( 38948) map
+I (3338) esp_image: segment 1: paddr=0001984c vaddr=3ff80000 size=00024h (    36) load
+I (3679) esp_image: segment 2: paddr=00019878 vaddr=3ffb0000 size=025e0h (  9696) load
+I (4001) esp_image: segment 3: paddr=0001be60 vaddr=40080000 size=041b8h ( 16824) load
+I (4325) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0f230h ( 62000) map
+I (4639) esp_image: segment 5: paddr=0002f258 vaddr=400841b8 size=08e48h ( 36424) load
+I (5910) boot: Loaded app from partition at offset 0x10000
+I (5911) boot: Disabling RNG early entropy source...
+I (6013) cpu_start: Multicore app
+I (11483) cpu_start: Pro cpu start user code
+I (11487) cpu_start: cpu freq: 160000000 Hz
+I (11488) app_init: Application information:
+I (11488) app_init: Project name:     lab6_2_multiple_files
+I (11489) app_init: App version:      1
+I (11490) app_init: Compile time:     Aug  6 2025 09:32:23
+I (11490) app_init: ELF file SHA256:  17eccce31...
+I (11491) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (11492) efuse_init: Min chip rev:     v0.0
+I (11492) efuse_init: Max chip rev:     v3.99
+I (11493) efuse_init: Chip rev:         v3.0
+I (11495) heap_init: Initializing. RAM available for dynamic allocation:
+I (11497) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (11498) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (11499) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11500) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11502) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11570) spi_flash: detected chip: winbond
+I (11588) spi_flash: flash io: dio
+I (11604) main_task: Started on CPU0
+I (11614) main_task: Calling app_main()
+I (11614) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (11614) MAIN: 📍 Main function from file: ./main/lab6_2_multiple_files.c, line: 14
+I (11614) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (11624) SENSOR: 🔧 Sensor initialized from file: ./main/sensor.c, line: 12
+I (11624) SENSOR: 📡 Sensor module ready for operation
+I (11624) DISPLAY: 🖥️  Display initialized from file: ./main/display.c, line: 9
+I (11624) DISPLAY: 💡 Display module ready
+I (11634) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (11634) DISPLAY: 📺 Message: System Starting...
+I (11634) MAIN: === Loop 0 ===
+I (11634) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (11634) DISPLAY: ✨ Display ready for new content
+I (11634) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (11634) SENSOR: 🌡️  Temperature: 26.4°C
+I (11644) SENSOR: 💧 Humidity: 68.4%
+I (11644) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (11654) DISPLAY: 📈 Value 1: 26.50
+I (11654) DISPLAY: 📉 Value 2: 61.00
+I (13654) MAIN: === Loop 1 ===
+I (13654) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (13654) DISPLAY: ✨ Display ready for new content
+I (13654) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (13654) SENSOR: 🌡️  Temperature: 34.4°C
+I (13654) SENSOR: 💧 Humidity: 83.1%
+I (13654) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (13654) DISPLAY: 📈 Value 1: 27.50
+I (13654) DISPLAY: 📉 Value 2: 62.00
+I (15654) MAIN: === Loop 2 ===
+I (15654) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (15654) DISPLAY: ✨ Display ready for new content
+I (15654) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (15654) SENSOR: 🌡️  Temperature: 32.5°C
+I (15654) SENSOR: 💧 Humidity: 82.8%
+I (15654) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (15654) DISPLAY: 📈 Value 1: 28.50
+I (15654) DISPLAY: 📉 Value 2: 63.00
+I (15654) SENSOR: ✅ Sensor status check from file: ./main/sensor.c, line: 30
+I (15664) SENSOR: 📈 All sensors operating normally
+I (15664) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (15664) DISPLAY: 📺 Message: Status Check Complete
+```
+##  แบบฝึกหัดเพิ่มเติม: เพิ่มไฟล์ LED.c
+### - `idf.py size`
+```c
+Executing action: size
+Running ninja in directory /project/lab6_2_multiple_files/build
+Executing "ninja all"...
+[1/4] cd /project/lab6_2_multiple_files/build/esp-idf/esptool_py && /opt/esp/python_env/idf6.0...ition_table/partition-table.bin /project/lab6_2_multiple_files/build/lab6_2_multiple_files.bin 
+lab6_2_multiple_files.bin binary size 0x28480 bytes. Smallest app partition is 0x100000 bytes. 0xd7b80 bytes (84%) free.
+[1/1] cd /project/lab6_2_multiple_files/build/bootloader/esp-idf/esptool_py && /opt/esp/python...offset 0x8000 bootloader 0x1000 /project/lab6_2_multiple_files/build/bootloader/bootloader.bin 
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[4/4] Completed 'bootloader'Running ninja in directory /project/lab6_2_multiple_files/build
+Executing "ninja size"...
+[0/1] cd /project/lab6_2_multiple_files/build && /opt/esp/tools/cmake/3.30.2/bin/cmake -D "IDF_SIZE_TOOL=/opt/esp/python_env/idf6.0_py3.12_env/bin/python;-m;esp_idf_size" -D MAP_FILE=/project/lab6_2_multiple_files/build/lab6_2_multiple_files.map -D OUTPUT_JSON= -P /opt/esp/idf/tools/cmake/run_size_tool.cmake
+                             Memory Type Usage Summary                              
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Memory Type/Section   ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ Flash Code            │        62434 │          │                │               │
+│    .text              │        62434 │          │                │               │
+│ IRAM                  │        53247 │    40.62 │          77825 │        131072 │
+│    .text              │        52219 │    39.84 │                │               │
+│    .vectors           │         1028 │     0.78 │                │               │
+│ Flash Data            │        39460 │          │                │               │
+│    .rodata            │        39204 │          │                │               │
+│    .appdesc           │          256 │          │                │               │
+│ DRAM                  │        11952 │     6.61 │         168784 │        180736 │
+│    .data              │         9696 │     5.36 │                │               │
+│    .bss               │         2256 │     1.25 │                │               │
+│ RTC FAST              │           36 │     0.44 │           8156 │          8192 │
+│    .force_fast        │           36 │     0.44 │                │               │
+│ RTC SLOW              │           24 │     0.29 │           8168 │          8192 │
+│    .rtc_slow_reserved │           24 │     0.29 │                │               │
+└───────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘
+Total image size: 164873 bytes (.bin may be padded larger)
+Note: The reported total sizes may be smaller than those in the technical reference manual due to reserved memory and application configuration. The total flash size available for the application is not included by default, as it cannot be reliably determined due to the presence of other data like the bootloader, partition table, and application partition size.
+```
+### `idf.py qemu`
+```c
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1176) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1179) boot: compile time Aug  6 2025 09:30:58
+I (1180) boot: Multicore bootloader
+I (1888) boot: chip revision: v3.0
+I (1892) boot.esp32: SPI Speed      : 40MHz
+I (1893) boot.esp32: SPI Mode       : DIO
+I (1894) boot.esp32: SPI Flash Size : 2MB
+I (1990) boot: Enabling RNG early entropy source...
+I (2089) boot: Partition Table:
+I (2090) boot: ## Label            Usage          Type ST Offset   Length
+I (2091) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (2092) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (2093) boot:  2 factory          factory app      00 00 00010000 00100000
+I (2173) boot: End of partition table
+I (2816) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09a24h ( 39460) map
+I (3163) esp_image: segment 1: paddr=00019a4c vaddr=3ff80000 size=00024h (    36) load
+I (3522) esp_image: segment 2: paddr=00019a78 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3883) esp_image: segment 3: paddr=0001c060 vaddr=40080000 size=03fb8h ( 16312) load
+I (4252) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0f3e4h ( 62436) map
+I (4653) esp_image: segment 5: paddr=0002f40c vaddr=40083fb8 size=09048h ( 36936) load
+I (5749) boot: Loaded app from partition at offset 0x10000
+I (5751) boot: Disabling RNG early entropy source...
+I (5840) cpu_start: Multicore app
+I (11140) cpu_start: Pro cpu start user code
+I (11142) cpu_start: cpu freq: 160000000 Hz
+I (11143) app_init: Application information:
+I (11144) app_init: Project name:     lab6_2_multiple_files
+I (11144) app_init: Project name:     lab6_2_multiple_files
+I (11145) app_init: App version:      1
+I (11145) app_init: App version:      1
+I (11145) app_init: Compile time:     Aug  6 2025 09:32:23
+I (11145) app_init: Compile time:     Aug  6 2025 09:32:23
+I (11146) app_init: ELF file SHA256:  cad5a9d73...
+I (11147) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (11148) efuse_init: Min chip rev:     v0.0
+I (11149) efuse_init: Max chip rev:     v3.99
+I (11149) efuse_init: Chip rev:         v3.0
+I (11152) heap_init: Initializing. RAM available for dynamic allocation:
+I (11155) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (11158) heap_init: At 3FFB2EB0 len 0002D150 (180 KiB): DRAM
+I (11159) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11146) app_init: ELF file SHA256:  cad5a9d73...
+I (11147) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (11148) efuse_init: Min chip rev:     v0.0
+I (11149) efuse_init: Max chip rev:     v3.99
+I (11149) efuse_init: Chip rev:         v3.0
+I (11152) heap_init: Initializing. RAM available for dynamic allocation:
+I (11155) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (11158) heap_init: At 3FFB2EB0 len 0002D150 (180 KiB): DRAM
+I (11159) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11148) efuse_init: Min chip rev:     v0.0
+I (11149) efuse_init: Max chip rev:     v3.99
+I (11149) efuse_init: Chip rev:         v3.0
+I (11152) heap_init: Initializing. RAM available for dynamic allocation:
+I (11155) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (11158) heap_init: At 3FFB2EB0 len 0002D150 (180 KiB): DRAM
+I (11159) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11149) efuse_init: Chip rev:         v3.0
+I (11152) heap_init: Initializing. RAM available for dynamic allocation:
+I (11155) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (11158) heap_init: At 3FFB2EB0 len 0002D150 (180 KiB): DRAM
+I (11159) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11158) heap_init: At 3FFB2EB0 len 0002D150 (180 KiB): DRAM
+I (11159) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11160) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (11161) heap_init: At 4008D000 len 00013000 (76 KiB): IRAM
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11247) spi_flash: detected chip: winbond
+I (11268) spi_flash: flash io: dio
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11308) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (11298) main_task: Started on CPU0
+I (11308) main_task: Calling app_main()
+I (11308) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (11308) main_task: Calling app_main()
+I (11308) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (11308) MAIN: 📍 Main function from file: ./main/lab6_2_multiple_files.c, line: 15
+I (11308) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (11308) MAIN: 🚀 Lab 6.2: Multiple Source Files Demo
+I (11308) MAIN: 📍 Main function from file: ./main/lab6_2_multiple_files.c, line: 15
+I (11308) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (11308) MAIN: 📍 Main function from file: ./main/lab6_2_multiple_files.c, line: 15
+I (11308) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (11318) SENSOR: 🔧 Sensor initialized from file: ./main/sensor.c, line: 12
+I (11308) MAIN: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (11318) SENSOR: 🔧 Sensor initialized from file: ./main/sensor.c, line: 12
+I (11318) SENSOR: 📡 Sensor module ready for operation
+I (11318) DISPLAY: 🖥️  Display initialized from file: ./main/display.c, line: 9
+I (11318) DISPLAY: 💡 Display module ready
+I (11318) DISPLAY: 💡 Display module ready
+I (11318) LED: 💡 LED initialized from file: ./main/led.c, line: 12
+I (11318) LED: 🔧 LED module ready
+I (11318) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (11318) DISPLAY: 📺 Message: System Starting...
+I (11318) LED: 🚀 Starting LED blink task from file: ./main/led.c, line: 59
+I (11328) LED: ✨ LED blink task started from file: ./main/led.c, line: 49
+I (11328) LED: ✅ LED ON from file: ./main/led.c, line: 20
+I (11328) LED: 🟢 LED is now ON
+I (11328) LED: 🔄 LED toggled from file: ./main/led.c, line: 38
+I (11328) MAIN: === Loop 0 ===
+I (11328) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (11328) DISPLAY: ✨ Display ready for new content
+I (11328) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (11338) SENSOR: 🌡️  Temperature: 32.4°C
+I (11348) SENSOR: 💧 Humidity: 96.1%
+I (11358) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (11358) DISPLAY: 📈 Value 1: 26.50
+I (11358) DISPLAY: 📉 Value 2: 61.00
+I (11358) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (11358) DISPLAY: 📺 Message: LED Status: ON
+I (13358) MAIN: === Loop 1 ===
+I (13358) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (13358) DISPLAY: ✨ Display ready for new content
+I (13358) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (13358) SENSOR: 🌡️  Temperature: 28.3°C
+I (13358) SENSOR: 💧 Humidity: 69.7%
+I (13358) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (13358) DISPLAY: 📈 Value 1: 27.50
+I (13358) DISPLAY: 📉 Value 2: 62.00
+I (13358) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (13368) DISPLAY: 📺 Message: LED Status: ON
+I (14328) LED: ❌ LED OFF from file: ./main/led.c, line: 27
+I (14328) LED: 🔴 LED is now OFF
+I (14328) LED: 🔄 LED toggled from file: ./main/led.c, line: 38
+I (15368) MAIN: === Loop 2 ===
+I (15368) DISPLAY: 🧹 Screen cleared from file: ./main/display.c, line: 28
+I (15368) DISPLAY: ✨ Display ready for new content
+I (15368) SENSOR: 📊 Reading sensor data from file: ./main/sensor.c, line: 18
+I (15368) SENSOR: 🌡️  Temperature: 27.6°C
+I (15368) SENSOR: 💧 Humidity: 91.3%
+I (15368) DISPLAY: 📊 Data display from file: ./main/display.c, line: 21
+I (15368) DISPLAY: 📈 Value 1: 28.50
+I (15368) DISPLAY: 📉 Value 2: 63.00
+I (15368) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (15368) DISPLAY: 📺 Message: LED Status: OFF
+I (15368) SENSOR: ✅ Sensor status check from file: ./main/sensor.c, line: 30
+I (15378) SENSOR: 📈 All sensors operating normally
+I (15378) DISPLAY: 📢 Displaying from file: ./main/display.c, line: 15
+I (15378) DISPLAY: 📺 Message: Status Check Complete
+I (17328) LED: ✅ LED ON from file: ./main/led.c, line: 20
+I (17328) LED: 🟢 LED is now ON
+I (17328) LED: 🔄 LED toggled from file: ./main/led.c, line: 38
+```
