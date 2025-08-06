@@ -619,3 +619,5 @@ I (17466) LAB1: Running... Counter: 7
     | ความเสถียร      | สภาพแวดล้อมคงที่   | อาจพังเพราะอัพเดต OS   |
     | Access hardware | ต้อง map USB       | เข้าถึงได้ทันที        |
     | การย้ายเครื่อง  | ง่าย แค่ย้าย image | ต้อง setup ใหม่        |
+
+# Lab 6.2: Add Source Files to Project
