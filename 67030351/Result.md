@@ -286,4 +286,158 @@ Executing "ninja size-files"...
 │ spi_bus_lock.c.obj                  │          4 │    0 │    0 │     0 │    0 │     0 │        0 │          0 │     0 │          4 │       4 │        0 │        0 │           0 │        0 │                  0 │
 └─────────────────────────────────────┴────────────┴──────┴──────┴───────┴──────┴───────┴──────────┴────────────┴───────┴────────────┴─────────┴──────────┴──────────┴─────────────┴──────────┴────────────────────┘
 ```
+## การ Flash และทดสอบ (ต้องออกจาก Docker หรือใช้ QEMU)
+```c
+idf.py qemu 
+```
+### Result
+<img width="1162" height="878" alt="image" src="https://github.com/user-attachments/assets/a89dc6a0-13e7-4cbe-acc7-fb3a65cc2edf" />
 
+```c
+root@9353b4f3ecf3:/project/lab6_1_basic_build# idf.py qemu
+Adding "qemu"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja all"...
+[1/4] cd /project/lab6_1_basic_build/build/esp-idf/esptool_py &...able.bin /project/lab6_1_basic_build/build/lab1_basic_build.bin 
+lab1_basic_build.bin binary size 0x279c0 bytes. Smallest app partition is 0x100000 bytes. 0xd8640 bytes (85%) free.
+[1/1] cd /project/lab6_1_basic_build/build/bootloader/esp-idf/e...000 /project/lab6_1_basic_build/build/bootloader/bootloader.bin 
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[4/4] Completed 'bootloader'Executing action: qemu
+Generating flash image: /project/lab6_1_basic_build/build/qemu_flash.bin
+esptool.py --chip=esp32 merge_bin --output=/project/lab6_1_basic_build/build/qemu_flash.bin --fill-flash-size=2MB --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 lab1_basic_build.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.9.0
+SHA digest in image updated
+Wrote 0x200000 bytes to file /project/lab6_1_basic_build/build/qemu_flash.bin, ready to flash to offset 0x0
+Generating efuse image: /project/lab6_1_basic_build/build/qemu_efuse.bin
+Running qemu (fg): qemu-system-xtensa -M esp32 -m 4M -drive file=/project/lab6_1_basic_build/build/qemu_flash.bin,if=mtd,format=raw -drive file=/project/lab6_1_basic_build/build/qemu_efuse.bin,if=none,format=raw,id=efuse -global driver=nvram.esp32.efuse,property=drive,value=efuse -global driver=timer.esp32.timg,property=wdt_disable,value=true -nic user,model=open_eth -nographic -serial mon:stdio
+Adding SPI flash device
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1154) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1157) boot: compile time Aug  6 2025 02:55:00
+I (1158) boot: Multicore bootloader
+I (1652) boot: chip revision: v3.0
+I (1656) boot.esp32: SPI Speed      : 40MHz
+I (1657) boot.esp32: SPI Mode       : DIO
+I (1657) boot.esp32: SPI Flash Size : 2MB
+I (1727) boot: Enabling RNG early entropy source...
+I (1791) boot: Partition Table:
+I (1792) boot: ## Label            Usage          Type ST Offset   Length
+I (1793) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (1794) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (1795) boot:  2 factory          factory app      00 00 00010000 00100000
+I (1867) boot: End of partition table
+I (2376) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09484h ( 38020) map
+I (2667) esp_image: segment 1: paddr=000194ac vaddr=3ff80000 size=00024h (    36) load
+I (2891) esp_image: segment 2: paddr=000194d8 vaddr=3ffb0000 size=025e0h (  9696) load
+I (3128) esp_image: segment 3: paddr=0001bac0 vaddr=40080000 size=04558h ( 17752) load
+I (3355) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0ef10h ( 61200) map
+I (3611) esp_image: segment 5: paddr=0002ef38 vaddr=40084558 size=08a60h ( 35424) load
+I (4301) boot: Loaded app from partition at offset 0x10000
+I (4301) boot: Disabling RNG early entropy source...
+I (4379) cpu_start: Multicore app
+I (8222) cpu_start: Pro cpu start user code
+I (8224) cpu_start: cpu freq: 160000000 Hz
+I (8225) app_init: Application information:
+I (8226) app_init: Project name:     lab1_basic_build
+I (8228) app_init: App version:      1
+I (8229) app_init: Compile time:     Aug  6 2025 02:54:16
+I (8231) app_init: ELF file SHA256:  202810b28...
+I (8233) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f
+I (8233) efuse_init: Min chip rev:     v0.0
+I (8233) efuse_init: Max chip rev:     v3.99
+I (8234) efuse_init: Chip rev:         v3.0
+I (8236) heap_init: Initializing. RAM available for dynamic allocation:
+I (8237) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (8238) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (8238) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (8238) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (8239) heap_init: At 4008CFB8 len 00013048 (76 KiB): IRAM
+I (8302) spi_flash: detected chip: winbond
+I (8307) spi_flash: flash io: dio
+I (8328) main_task: Started on CPU0
+I (8328) main_task: Calling app_main()
+I (8328) LAB6_1: Lab 6.1: Basic ESP32 Project Structure
+I (8338) LAB6_1: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (8338) LAB6_1: Free heap size: 304636 bytes
+I (8338) LAB6_1: Build system test - Counter: 0
+I (10338) LAB6_1: Build system test - Counter: 1
+I (12338) LAB6_1: Build system test - Counter: 2
+I (14338) LAB6_1: Build system test - Counter: 3
+I (16338) LAB6_1: Build system test - Counter: 4
+I (18338) LAB6_1: Build system test - Counter: 5
+I (20338) LAB6_1: Build system test - Counter: 6
+I (22338) LAB6_1: Build system test - Counter: 7
+I (24338) LAB6_1: Build system test - Counter: 8
+I (26338) LAB6_1: Build system test - Counter: 9
+I (28338) LAB6_1: Build system test - Counter: 10
+I (30338) LAB6_1: Build system test - Counter: 11
+I (32338) LAB6_1: Build system test - Counter: 12
+I (34338) LAB6_1: Build system test - Counter: 13
+I (36338) LAB6_1: Build system test - Counter: 14
+I (38338) LAB6_1: Build system test - Counter: 15
+I (40338) LAB6_1: Build system test - Counter: 16
+I (42338) LAB6_1: Build system test - Counter: 17
+I (44338) LAB6_1: Build system test - Counter: 18
+I (46338) LAB6_1: Build system test - Counter: 19
+I (48338) LAB6_1: Build system test - Counter: 20
+I (50338) LAB6_1: Build system test - Counter: 21
+I (52338) LAB6_1: Build system test - Counter: 22
+I (54338) LAB6_1: Build system test - Counter: 23
+I (56338) LAB6_1: Build system test - Counter: 24
+I (58338) LAB6_1: Build system test - Counter: 25
+I (60338) LAB6_1: Build system test - Counter: 26
+I (62338) LAB6_1: Build system test - Counter: 27
+I (64338) LAB6_1: Build system test - Counter: 28
+I (66338) LAB6_1: Build system test - Counter: 29
+I (68338) LAB6_1: Build system test - Counter: 30
+I (70338) LAB6_1: Build system test - Counter: 31
+I (72338) LAB6_1: Build system test - Counter: 32
+I (74338) LAB6_1: Build system test - Counter: 33
+I (76338) LAB6_1: Build system test - Counter: 34
+I (78338) LAB6_1: Build system test - Counter: 35
+I (80338) LAB6_1: Build system test - Counter: 36
+I (82338) LAB6_1: Build system test - Counter: 37
+I (84338) LAB6_1: Build system test - Counter: 38
+I (86338) LAB6_1: Build system test - Counter: 39
+I (88338) LAB6_1: Build system test - Counter: 40
+I (90338) LAB6_1: Build system test - Counter: 41
+I (92338) LAB6_1: Build system test - Counter: 42
+I (94338) LAB6_1: Build system test - Counter: 43
+I (96338) LAB6_1: Build system test - Counter: 44
+I (98338) LAB6_1: Build system test - Counter: 45
+I (100338) LAB6_1: Build system test - Counter: 46
+I (102338) LAB6_1: Build system test - Counter: 47
+I (104338) LAB6_1: Build system test - Counter: 48
+I (106338) LAB6_1: Build system test - Counter: 49
+I (108338) LAB6_1: Build system test - Counter: 50
+I (110338) LAB6_1: Build system test - Counter: 51
+I (112338) LAB6_1: Build system test - Counter: 52
+I (114338) LAB6_1: Build system test - Counter: 53
+I (116338) LAB6_1: Build system test - Counter: 54
+I (118338) LAB6_1: Build system test - Counter: 55
+I (120338) LAB6_1: Build system test - Counter: 56
+I (122338) LAB6_1: Build system test - Counter: 57
+I (124338) LAB6_1: Build system test - Counter: 58
+I (126338) LAB6_1: Build system test - Counter: 59
+I (128338) LAB6_1: Build system test - Counter: 60
+I (130338) LAB6_1: Build system test - Counter: 61
+I (132338) LAB6_1: Build system test - Counter: 62
+I (134338) LAB6_1: Build system test - Counter: 63
+I (136338) LAB6_1: Build system test - Counter: 64
+I (138338) LAB6_1: Build system test - Counter: 65
+I (140338) LAB6_1: Build system test - Counter: 66
+I (142338) LAB6_1: Build system test - Counter: 67
+I (144338) LAB6_1: Build system test - Counter: 68
+I (146338) LAB6_1: Build system test - Counter: 69
+I (148338) LAB6_1: Build system test - Counter: 70
+```
